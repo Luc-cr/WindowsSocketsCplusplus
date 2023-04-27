@@ -1,29 +1,5 @@
 #include "Connection.h"
 
-void Connection::connect(std::string address, unsigned short port)
-{
-	connectionAddr.sin_family = familyType;
-	connectionAddr.sin_port = htons(port);
-	inet_pton(familyType, address.c_str(), &connectionAddr.sin_addr);
-
-	connection = host;
-
-retry_connection:
-	if (cs::connect(connection, (SOCKADDR*)&connectionAddr, sizeof(connectionAddr)) == SOCKET_ERROR)
-	{
-		std::cout << "Connection failed with error " << WSAGetLastError() << std::endl;
-		if (WSAGetLastError() == 10061)
-		{
-			int response = MessageBox(NULL, (LPCWSTR)L"No connection could be made because the target machine actively refused it!", L"Error 0x" + WSAGetLastError(), MB_ICONERROR | MB_RETRYCANCEL);
-			if (response == 4)
-				goto retry_connection;
-			else
-				exit(1);
-		}
-	}
-}
-
-
 int Connection::send(std::string data)
 {
 	if (cs::send(connection, data.c_str(), (size_t)data.size(), 0) == SOCKET_ERROR)
