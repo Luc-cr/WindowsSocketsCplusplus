@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Socket.h"
+/*
 class Server :public Socket
 {
 public:
@@ -21,8 +22,24 @@ public:
 	}
 	std::vector<Connection*> connections;
 };
+*/
 int main()
 {
+	
+	/*Socket sc(IPv4, UDP);
+	Connection con(IPv4, "127.0.0.1", 10000);
+	sc.bind("127.0.0.1", 10001);
+	sc.sendto(&con, "Hola Mundo!");
+	std::cout << sc.recvfrom(&con, 12) << std::endl;
+	MessageBox(NULL, (LPCWSTR)L"La conexion finalizo correctamente sin ningun error!", L":)", NULL);
+	*/
+	Socket sc(IPv4, UDP);
+	Connection con(IPv4, "127.0.0.1", 10012);
+	sc.bind("127.0.0.1", 10000);
+	std::cout << sc.recvfrom(12).data << std::endl;
+	sc.sendto(&con, "Hola Mundo!");
+	
+	/*
 	Server sc(IPv4, TCP);
 
 	sc.bind("127.0.0.1", 10000);
@@ -32,7 +49,7 @@ int main()
 	std::cout << sc.connections[0]->recv(12) << std::endl;
 	sc.connections[0]->send("Hola mundo!");
 	sc.connections[0]->close();
-	
+	*/
 	/*
 	Socket sokc(IPv4, TCP);
 	sokc.connect("127.0.0.1", 10000);

@@ -3,10 +3,7 @@
 BasicSockets::BasicSockets(FamilyTypes family, ConnectionTypes connection)
 {
 	if (WSAStartup(MAKEWORD(2, 2), &SocketDLL)) // Start WSA service 
-	{
-		std::cout << "Error while trying to start WSA.dll" << std::endl; 
-		exit(1);
-	}
+		throw WsaStartupError();
 
 	hostAddr.sin_family = family;
 
@@ -30,10 +27,9 @@ BasicSockets::BasicSockets(FamilyTypes family, ConnectionTypes connection)
 
 	host = cs::socket(family, connection, protocol);
 	if (host == INVALID_SOCKET)
-	{
-		std::cout << "Socket Creation failed with error " << WSAGetLastError() << std::endl;
-		exit(1);
-	}
+		throw SocketCreationFailed(WSAGetLastError());
+	
+	
 }
 
 BasicSockets::BasicSockets(SOCKET Socket, sockaddr_in ConnectionInfo)
